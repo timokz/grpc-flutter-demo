@@ -1,0 +1,1 @@
+export 'generated/protos.dart';
