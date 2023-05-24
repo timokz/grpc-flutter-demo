@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:grpc/grpc.dart';
-import 'package:meetup_demo_server/protos/generated.dart%20';
+import 'package:meetup_demo_server/protos/generated.dart';
 import 'package:models/models.dart' as models;
 
 export 'package:grpc/grpc.dart';
@@ -13,7 +13,7 @@ void main(List<String> arguments) async {
     PizzeriaService(),
   ]);
   // could also manually be set to 8080 or 8800
-  const port = 8800;
+  const port = 8080;
   await server.serve(port: port);
 
   print('Server listening at localhost:$port');

@@ -17,7 +17,7 @@ class GRPCService {
   static Future<GRPCService> init() async {
     final channel = ClientChannel(
       '127.0.0.1',
-      port: 8800,
+      port: 8080,
       options: const ChannelOptions(
         credentials: ChannelCredentials.insecure(),
       ),

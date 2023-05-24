@@ -12,12 +12,12 @@
         {
             "label": "Flutter-Launch-Android",
             "type": "shell",
-            "command": "flutter run -d emulator-5554"
+            "command": "cd client && flutter run -d emulator-5554 --target=lib/main.dart"
         },
         {
             "label": "Flutter-Launch-desktop",
             "type": "shell",
-            "command": "flutter run -d 'windows' "
+            "command": "cd client &&  flutter run -d linux --target=lib/main.dart"
         },
         {
             "label": "Flutter-Launch-Server",
