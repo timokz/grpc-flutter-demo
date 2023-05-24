@@ -19,6 +19,7 @@
         {
             "name": "Flutter-All",
             "preLaunchTask": "Flutter-Launch-All",
+            "request": "launch",
             "type": "dart",
         },
     ]

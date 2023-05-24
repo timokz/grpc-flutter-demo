@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meetup_demo/app/view/avatar_animation.dart';
 import 'package:meetup_demo/service/grpc_service.dart';
 import 'package:meetup_demo/service/pizza_repo.dart';
 
@@ -24,11 +25,16 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Home Screen'),
         ),
-        body: Center(
-          child: ElevatedButton(
-            child: const Text('Go to Pizza Order Screen'),
-            onPressed: () => context.go('/pizza_order'),
-          ),
+        body: Column(
+          children: [
+            Center(
+              child: ElevatedButton(
+                child: const Text('Go to Pizza Order Screen'),
+                onPressed: () => context.go('/pizza_order'),
+              ),
+            ),
+            const AvatarAnimation(),
+          ],
         ),
       ),
     );

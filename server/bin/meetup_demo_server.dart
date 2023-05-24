@@ -13,7 +13,7 @@ void main(List<String> arguments) async {
     PizzeriaService(),
   ]);
   // could also manually be set to 8080 or 8800
-  const port = 8080;
+  const port = 8800;
   await server.serve(port: port);
 
   print('Server listening at localhost:$port');
