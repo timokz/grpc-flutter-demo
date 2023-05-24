@@ -17,7 +17,7 @@ class GRPCService {
   static Future<GRPCService> init() async {
     final channel = ClientChannel(
       '127.0.0.1',
-      port: 5001,
+      port: 8080,
       options: const ChannelOptions(
         credentials: ChannelCredentials.insecure(),
       ),
@@ -43,6 +43,16 @@ class GRPCService {
     log('called listPizzas rpc');
     print('called listPizzas rpc');
 
-    return pizzas!.pizzas.map((e) => e as models.Pizza).toList();
+    return pizzas!.pizzas
+        .map(
+          (Pizza item) => models.Pizza(
+            name: item.name,
+            description: item.description,
+            price: item.price,
+            vegetarian: item.vegetarian,
+            imageURL: item.imageURL,
+          ),
+        )
+        .toList();
   }
 }

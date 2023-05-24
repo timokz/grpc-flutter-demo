@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:grpc/grpc.dart';
 import 'package:meetup_demo_server/protos/generated.dart%20';
+import 'package:models/models.dart' as models;
 
 export 'package:grpc/grpc.dart';
 
@@ -12,7 +13,7 @@ void main(List<String> arguments) async {
     PizzeriaService(),
   ]);
   // could also manually be set to 8080 or 8800
-  const port = 5001;
+  const port = 8080;
   await server.serve(port: port);
 
   print('Server listening at localhost:$port');
@@ -64,18 +65,21 @@ class PizzeriaService extends PizzeriaServiceBase {
 
 Future<List<Pizza>> loadPizzas() async {
   final jsonString = await File('assets/sample_data.json').readAsString();
-  final jsonList = jsonDecode(jsonString) as Map<String, dynamic>;
-  final pizzaList = jsonList.entries
-      .map(
-        (entry) => Pizza(
-          name: entry.value['name'] as String,
-          description: entry.value['description'] as String,
-          price: entry.value['price'] as double,
-          vegetarian: entry.value['vegetarian'] as bool,
-          imageURL: entry.value['imageURL'] as String,
-        ),
-      )
+  final jsonData = jsonDecode(jsonString) as List<dynamic>;
+
+  final pizzas = jsonData
+      .map((e) => models.Pizza.fromJson(e as Map<String, dynamic>))
       .toList();
 
-  return pizzaList;
+  final pizzaProtos = pizzas.map(
+    (models.Pizza item) => Pizza(
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      vegetarian: item.vegetarian,
+      imageURL: item.imageURL,
+    ),
+  );
+
+  return pizzaProtos.toList();
 }

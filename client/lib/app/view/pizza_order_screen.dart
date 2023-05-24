@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meetup_demo/service/grpc_service.dart';
@@ -45,12 +42,6 @@ class PizzaOrderScreen extends StatelessWidget {
   }
 
   Future<List<Pizza>> loadPizza() async {
-    final jsonString = await File('assets/sample_data.json').readAsString();
-    print(jsonString);
-    final jsonList = jsonDecode(jsonString);
-    final pizzaList = jsonList.map(Pizza.fromJson).toList();
-
-    return pizzaList;
     final pizzas = await GRPCService().loadPizzas();
     return pizzas;
   }
