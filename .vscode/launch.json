@@ -15,6 +15,11 @@
             "type": "dart",
             "request": "launch",
             "program": "server/bin/meetup_demo_server.dart"
-        }
+        },
+        {
+            "name": "Flutter-All",
+            "preLaunchTask": "Flutter-Launch-All",
+            "type": "dart",
+        },
     ]
 }
