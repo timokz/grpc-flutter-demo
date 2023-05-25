@@ -8,6 +8,7 @@ class PizzaDetailView extends StatefulWidget {
     required this.pizza,
     super.key,
   });
+
   final Pizza pizza;
 
   @override
@@ -32,26 +33,33 @@ class _PizzaDetailViewState extends State<PizzaDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = PizzaDetailBloc(widget.pizza);
-
     return BlocProvider(
-      create: (_) => bloc,
+      create: (_) => _pizzaDetailBloc,
       child: ListTile(
         leading: const Icon(Icons.local_pizza),
         title: Text(widget.pizza.name),
         subtitle: Text(widget.pizza.description),
         trailing: BlocBuilder<PizzaDetailBloc, PizzaDetailState>(
-          bloc: bloc,
-          builder: (context, snapshot) {
+          builder: (context, state) {
             return IconButton(
-              onPressed: () => bloc.add(IncrementQuantity()),
+              onPressed: () => _pizzaDetailBloc.add(IncrementQuantity()),
               icon: LayoutBuilder(
                 builder: (context, constraints) {
+                  final iconSize = constraints.maxHeight * 2;
+
                   return FittedBox(
                     child: Row(
                       children: [
-                        const Icon(Icons.add),
-                        Text('Quantity: ${bloc.pizza.quantity}'),
+                        IconButton(
+                          onPressed: () =>
+                              _pizzaDetailBloc.add(IncrementQuantity()),
+                          icon: const Icon(Icons.add),
+                          iconSize: iconSize,
+                        ),
+                        Text(
+                          '${state.quantity}',
+                          style: const TextStyle(fontSize: 50), //demo purposes
+                        ),
                       ],
                     ),
                   );

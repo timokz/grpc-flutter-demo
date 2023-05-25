@@ -24,7 +24,6 @@ class _PizzaOrderScreenState extends State<PizzaOrderScreen> {
 
   Future<List<Pizza>> loadPizza() async {
     final pizzas = await PizzaRepo(grpcService: GRPCService()).loadPizzas();
-    print('pizzas: $pizzas');
     return pizzas;
   }
 

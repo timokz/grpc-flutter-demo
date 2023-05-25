@@ -103,6 +103,8 @@ class PizzeriaService extends PizzeriaServiceBase {
       if (pizzaIndex >= 0) {
         _pizzas[pizzaIndex].quantity = request.newQuantity;
 
+        print('pizza quantity: ${_pizzas[pizzaIndex].quantity}');
+
         // Update the pizza quantity and broadcast the update
         updatePizzaQuantityAndBroadcast(request.pizzaId, request.newQuantity);
       }
