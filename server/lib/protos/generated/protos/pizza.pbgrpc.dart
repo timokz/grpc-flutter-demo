@@ -44,6 +44,18 @@ class PizzeriaClient extends $grpc.Client {
           '/Pizzeria/DeleteOrder',
           ($0.OrderRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.OrderResponse.fromBuffer(value));
+  static final _$subscribeToPizza =
+      $grpc.ClientMethod<$0.PizzaUpdateRequest, $0.PizzaUpdateResponse>(
+          '/Pizzeria/SubscribeToPizza',
+          ($0.PizzaUpdateRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.PizzaUpdateResponse.fromBuffer(value));
+  static final _$updatePizzaQuantity = $grpc.ClientMethod<
+          $0.PizzaQuantityUpdateRequest, $0.PizzaQuantityUpdateResponse>(
+      '/Pizzeria/UpdatePizzaQuantity',
+      ($0.PizzaQuantityUpdateRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) =>
+          $0.PizzaQuantityUpdateResponse.fromBuffer(value));
 
   PizzeriaClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -78,6 +90,20 @@ class PizzeriaClient extends $grpc.Client {
   $grpc.ResponseFuture<$0.OrderResponse> deleteOrder($0.OrderRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteOrder, request, options: options);
+  }
+
+  $grpc.ResponseStream<$0.PizzaUpdateResponse> subscribeToPizza(
+      $0.PizzaUpdateRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createStreamingCall(
+        _$subscribeToPizza, $async.Stream.fromIterable([request]),
+        options: options);
+  }
+
+  $grpc.ResponseFuture<$0.PizzaQuantityUpdateResponse> updatePizzaQuantity(
+      $0.PizzaQuantityUpdateRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$updatePizzaQuantity, request, options: options);
   }
 }
 
@@ -127,6 +153,24 @@ abstract class PizzeriaServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.OrderRequest.fromBuffer(value),
         ($0.OrderResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$0.PizzaUpdateRequest, $0.PizzaUpdateResponse>(
+            'SubscribeToPizza',
+            subscribeToPizza_Pre,
+            false,
+            true,
+            ($core.List<$core.int> value) =>
+                $0.PizzaUpdateRequest.fromBuffer(value),
+            ($0.PizzaUpdateResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.PizzaQuantityUpdateRequest,
+            $0.PizzaQuantityUpdateResponse>(
+        'UpdatePizzaQuantity',
+        updatePizzaQuantity_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.PizzaQuantityUpdateRequest.fromBuffer(value),
+        ($0.PizzaQuantityUpdateResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.PizzaListResponse> listPizzas_Pre(
@@ -159,6 +203,18 @@ abstract class PizzeriaServiceBase extends $grpc.Service {
     return deleteOrder(call, await request);
   }
 
+  $async.Stream<$0.PizzaUpdateResponse> subscribeToPizza_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.PizzaUpdateRequest> request) async* {
+    yield* subscribeToPizza(call, await request);
+  }
+
+  $async.Future<$0.PizzaQuantityUpdateResponse> updatePizzaQuantity_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.PizzaQuantityUpdateRequest> request) async {
+    return updatePizzaQuantity(call, await request);
+  }
+
   $async.Future<$0.PizzaListResponse> listPizzas(
       $grpc.ServiceCall call, $0.OrderRequest request);
   $async.Future<$0.OrderResponse> getOrder(
@@ -171,4 +227,8 @@ abstract class PizzeriaServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.Order request);
   $async.Future<$0.OrderResponse> deleteOrder(
       $grpc.ServiceCall call, $0.OrderRequest request);
+  $async.Stream<$0.PizzaUpdateResponse> subscribeToPizza(
+      $grpc.ServiceCall call, $0.PizzaUpdateRequest request);
+  $async.Future<$0.PizzaQuantityUpdateResponse> updatePizzaQuantity(
+      $grpc.ServiceCall call, $0.PizzaQuantityUpdateRequest request);
 }

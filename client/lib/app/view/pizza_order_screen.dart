@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:meetup_demo/service/grpc_service.dart';
-import 'package:models/models.dart';
+import 'package:meetup_demo/app/view/pizza_detail_view.dart';
+import 'package:meetup_demo/protos/generated/protos/pizza.pb.dart';
+import 'package:meetup_demo/service/grcp_service.dart';
 
 class PizzaOrderScreen extends StatelessWidget {
   const PizzaOrderScreen({super.key});
@@ -20,16 +21,22 @@ class PizzaOrderScreen extends StatelessWidget {
         future: loadPizza(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                final pizza = snapshot.data![index];
-                return ListTile(
-                  leading: const Icon(Icons.local_pizza),
-                  title: Text(pizza.name),
-                  subtitle: Text(pizza.description),
-                );
-              },
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final pizza = snapshot.data![index];
+                      return PizzaDetailView(
+                        pizza: pizza,
+                      );
+                    },
+                  ),
+                ),
+                const Divider(),
+                const SizedBox(height: 16),
+              ],
             );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
@@ -43,6 +50,7 @@ class PizzaOrderScreen extends StatelessWidget {
 
   Future<List<Pizza>> loadPizza() async {
     final pizzas = await GRPCService().loadPizzas();
+
     return pizzas;
   }
 }

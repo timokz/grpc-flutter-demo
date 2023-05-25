@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meetup_demo/service/grpc_service.dart';
+import 'package:meetup_demo/service/grcp_service.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();

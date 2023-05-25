@@ -1,5 +1,5 @@
-import 'package:meetup_demo/service/grpc_service.dart';
-import 'package:models/models.dart';
+import 'package:meetup_demo/protos/generated/protos/pizza.pb.dart';
+import 'package:meetup_demo/service/grcp_service.dart';
 
 class PizzaRepo {
   const PizzaRepo({required GRPCService grpcService})
