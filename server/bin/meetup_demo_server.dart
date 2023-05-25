@@ -13,7 +13,7 @@ void main(List<String> arguments) async {
     PizzeriaService(),
   ]);
   // could also manually be set to 8080 or 8800
-  const port = 8000;
+  const port = 8888;
   await server.serve(port: port);
 
   print('Server listening at localhost:$port');
@@ -24,6 +24,7 @@ void main(List<String> arguments) async {
     print('Shutting down...');
     log('Shutting down...');
     await server.shutdown();
+    print('Server shutdown');
     exit(0);
   });
 }
@@ -66,13 +67,16 @@ class PizzeriaService extends PizzeriaServiceBase {
   }
 
   @override
-  Stream<PizzaListResponse> listPizzas(ServiceCall call, OrderRequest request) {
-    log('listPizzas rpc called');
-    print('listPizzas rpc called');
+  Stream<PizzaListResponse> listPizzas(
+    ServiceCall call,
+    OrderRequest request,
+  ) async* {
+    log('listPizzas rpc called from server');
+    print('broadcasting pizza list');
 
     final response = PizzaListResponse(pizzas: _pizzas);
-    _pizzaListController.add(response);
-    return _pizzaListController.stream;
+
+    yield* Stream.value(response).asBroadcastStream();
   }
 
   @override

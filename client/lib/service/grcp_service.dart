@@ -20,7 +20,7 @@ class GRPCService implements PizzeriaInterface {
   static Future<GRPCService> init() async {
     final channel = ClientChannel(
       '10.0.2.2',
-      port: 8000,
+      port: 8888,
       options: const ChannelOptions(
         credentials: ChannelCredentials.insecure(),
       ),
@@ -103,12 +103,21 @@ class GRPCService implements PizzeriaInterface {
 
   @override
   Stream<PizzaUpdateResponse> subscribeToPizzas(PizzaUpdateRequest request) {
-    final stream = _client?.subscribeToPizza(request).asBroadcastStream();
+    final stream =
+        _singleton._client?.subscribeToPizza(request).asBroadcastStream();
 
     // Listen for updates on the stream and add them to the controller
-    stream!.listen(_controller.add);
+    stream?.listen(
+      _controller.add,
+      onError: (error) {
+        log('Error receiving pizza updates: $error');
+      },
+      onDone: () {
+        log('Pizza updates stream closed');
+      },
+    );
 
-    return _controller.stream;
+    return stream!;
   }
 
   @override
