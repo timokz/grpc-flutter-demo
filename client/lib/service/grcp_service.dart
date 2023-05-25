@@ -20,7 +20,7 @@ class GRPCService implements PizzeriaInterface {
   static Future<GRPCService> init() async {
     final channel = ClientChannel(
       '10.0.2.2',
-      port: 8888,
+      port: 5001,
       options: const ChannelOptions(
         credentials: ChannelCredentials.insecure(),
       ),
@@ -39,66 +39,18 @@ class GRPCService implements PizzeriaInterface {
     return GRPCService();
   }
 
-  Future<ResponseStream<PizzaListResponse>?>? loadPizzas() async {
+  @override
+  Future<PizzaListResponse> loadPizzas() async {
     print('calling listPizzas rpc');
     try {
       final pizzaResponse = _singleton._client?.listPizzas(OrderRequest());
       log('called listPizzas rpc');
-      print('called listPizzas rpc');
-      return pizzaResponse;
+      return pizzaResponse!;
     } catch (e) {
       log('Error loading pizzas: $e');
       print('Error loading pizzas: $e');
       rethrow;
     }
-  }
-
-  @override
-  Future<OrderResponse> createOrder(Order order) async {
-    try {
-      final response = await _singleton._client?.createOrder(order);
-      return response!;
-    } catch (e) {
-      log('Error creating order: $e');
-      print('Error creating order: $e');
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> deleteOrder(String id) async {
-    try {
-      await _singleton._client?.deleteOrder(OrderRequest(orderId: id));
-    } catch (e) {
-      log('Error deleting order: $e');
-      print('Error deleting order: $e');
-      rethrow;
-    }
-  }
-
-  @override
-  Future<OrderResponse> getOrder(String id) async {
-    try {
-      final response =
-          await _singleton._client?.getOrder(OrderRequest(orderId: id));
-      return response!;
-    } catch (e) {
-      log('Error getting order: $e');
-      print('Error getting order: $e');
-      rethrow;
-    }
-  }
-
-  @override
-  Future<List<Order>> getOrders() {
-    // TODO: implement getOrders
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Order> updateOrder(Order order) {
-    // TODO: implement updateOrder
-    throw UnimplementedError();
   }
 
   @override

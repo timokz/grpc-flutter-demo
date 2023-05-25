@@ -1,4 +1,3 @@
-import 'package:grpc/src/client/common.dart';
 import 'package:meetup_demo/protos/generated/protos/pizza.pb.dart';
 import 'package:meetup_demo/service/grcp_service.dart';
 
@@ -8,6 +7,7 @@ class PizzaRepo {
 
   final GRPCService _grpcService;
 
-  Future<ResponseStream<PizzaListResponse>?>? get pizzas =>
-      _grpcService.loadPizzas();
+  Future<List<Pizza>> loadPizzas() async {
+    return _grpcService.loadPizzas().then((value) => value.pizzas);
+  }
 }

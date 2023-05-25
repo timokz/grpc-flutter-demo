@@ -21,6 +21,7 @@ message PizzaUpdate {
 message PizzaUpdateResponse { Pizza pizza = 1; }
 
 message PizzaListResponse { repeated Pizza pizzas = 1; }
+
 message PizzaQuantityUpdateRequest {
   string pizza_id = 1;
   int32 new_quantity = 2;
@@ -28,7 +29,7 @@ message PizzaQuantityUpdateRequest {
 message PizzaQuantityUpdateResponse { Pizza pizza = 1; }
 
 service Pizzeria {
-  rpc ListPizzas(OrderRequest) returns (stream PizzaListResponse);
+  rpc ListPizzas(OrderRequest) returns (PizzaListResponse);
   rpc SubscribeToPizza(PizzaUpdateRequest) returns (stream PizzaUpdateResponse);
   rpc UpdatePizzaQuantity(PizzaQuantityUpdateRequest)
       returns (PizzaQuantityUpdateResponse);

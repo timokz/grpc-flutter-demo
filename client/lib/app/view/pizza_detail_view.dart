@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meetup_demo/app/order/pizza_detail_bloc.dart';
 import 'package:meetup_demo/protos/generated/protos/pizza.pb.dart';
 
-class PizzaDetailView extends StatelessWidget {
+class PizzaDetailView extends StatefulWidget {
   const PizzaDetailView({
     required this.pizza,
     super.key,
@@ -11,17 +11,37 @@ class PizzaDetailView extends StatelessWidget {
   final Pizza pizza;
 
   @override
+  State<PizzaDetailView> createState() => _PizzaDetailViewState();
+}
+
+class _PizzaDetailViewState extends State<PizzaDetailView> {
+  late PizzaDetailBloc _pizzaDetailBloc;
+
+  @override
+  void initState() {
+    _pizzaDetailBloc = PizzaDetailBloc(widget.pizza);
+    _pizzaDetailBloc.subscribeToPizzaUpdates();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pizzaDetailBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final bloc = PizzaDetailBloc(pizza);
+    final bloc = PizzaDetailBloc(widget.pizza);
 
     return BlocProvider(
       create: (_) => bloc,
       child: ListTile(
         leading: const Icon(Icons.local_pizza),
-        title: Text(pizza.name),
-        subtitle: Text(pizza.description),
-        trailing: StreamBuilder<int>(
-          stream: bloc.quantity,
+        title: Text(widget.pizza.name),
+        subtitle: Text(widget.pizza.description),
+        trailing: BlocBuilder<PizzaDetailBloc, PizzaDetailState>(
+          bloc: bloc,
           builder: (context, snapshot) {
             return IconButton(
               onPressed: () => bloc.add(IncrementQuantity()),
@@ -31,7 +51,7 @@ class PizzaDetailView extends StatelessWidget {
                     child: Row(
                       children: [
                         const Icon(Icons.add),
-                        Text('${snapshot.data ?? 0}'),
+                        Text('Quantity: ${bloc.pizza.quantity}'),
                       ],
                     ),
                   );

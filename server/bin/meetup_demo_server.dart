@@ -13,7 +13,7 @@ void main(List<String> arguments) async {
     PizzeriaService(),
   ]);
   // could also manually be set to 8080 or 8800
-  const port = 8888;
+  const port = 5001;
   await server.serve(port: port);
 
   print('Server listening at localhost:$port');
@@ -37,46 +37,13 @@ class PizzeriaService extends PizzeriaServiceBase {
   late final List<Pizza> _pizzas = definedPizzas;
 
   @override
-  Future<OrderResponse> createOrder(ServiceCall call, Order request) {
-    // TODO: implement createOrder
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<OrderResponse> deleteOrder(ServiceCall call, OrderRequest request) {
-    // TODO: implement deleteOrder
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<OrderResponse> getOrder(ServiceCall call, OrderRequest request) {
-    // TODO: implement getOrder
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<OrderListResponse> listOrders(ServiceCall call, OrderRequest request) {
-    // TODO: implement listOrders
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<OrderResponse> updateOrder(ServiceCall call, Order request) {
-    // TODO: implement updateOrder
-    throw UnimplementedError();
-  }
-
-  @override
-  Stream<PizzaListResponse> listPizzas(
+  Future<PizzaListResponse> listPizzas(
     ServiceCall call,
     OrderRequest request,
-  ) async* {
+  ) async {
     log('listPizzas rpc called from server');
     print('broadcasting pizza list');
-
-    final response = PizzaListResponse(pizzas: _pizzas);
-
-    yield* Stream.value(response).asBroadcastStream();
+    return PizzaListResponse(pizzas: _pizzas);
   }
 
   @override
@@ -131,23 +98,37 @@ class PizzeriaService extends PizzeriaServiceBase {
     PizzaQuantityUpdateRequest request,
   ) {
     print('updatePizzaQuantity rpc called');
-    final pizzaIndex = _pizzas.indexWhere((p) => p.id == request.pizzaId);
-    if (pizzaIndex >= 0) {
-      _pizzas[pizzaIndex].quantity = request.newQuantity;
+    {
+      final pizzaIndex = _pizzas.indexWhere((p) => p.id == request.pizzaId);
+      if (pizzaIndex >= 0) {
+        _pizzas[pizzaIndex].quantity = request.newQuantity;
 
-      // Send updates to all subscribers for this pizza
-      if (_subscribers.containsKey(request.pizzaId)) {
-        final update =
-            PizzaUpdate(id: request.pizzaId, quantity: request.newQuantity);
-        _subscribers[request.pizzaId]!.add(update);
+        // Update the pizza quantity and broadcast the update
+        updatePizzaQuantityAndBroadcast(request.pizzaId, request.newQuantity);
+      }
+      return Future.value(
+        PizzaQuantityUpdateResponse(pizza: _pizzas[pizzaIndex]),
+      );
+    }
+  }
+
+  Future<void> updatePizzaQuantityAndBroadcast(
+    String pizzaId,
+    int newQuantity,
+  ) async {
+    final pizzaIndex = _pizzas.indexWhere((p) => p.id == pizzaId);
+    if (pizzaIndex >= 0) {
+      _pizzas[pizzaIndex].quantity = newQuantity;
+
+      print('updatePizzaQuantity and broadcast rpc called');
+      if (_subscribers.containsKey(pizzaId)) {
+        final update = PizzaUpdate(id: pizzaId, quantity: newQuantity);
+        _subscribers[pizzaId]!.add(update);
       }
 
       // Send updated pizza list to all connected clients
       final response = PizzaListResponse(pizzas: _pizzas);
       _pizzaListController.add(response);
     }
-    return Future.value(
-      PizzaQuantityUpdateResponse(pizza: _pizzas[pizzaIndex]),
-    );
   }
 }

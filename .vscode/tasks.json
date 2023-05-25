@@ -15,9 +15,9 @@
             "command": " flutter run -d emulator-5554 --target=client/lib/main.dart"
         },
         {
-            "label": "Flutter-Launch-desktop",
+            "label": "Flutter-Launch-Android",
             "type": "shell",
-            "command": "flutter run -d linux --target=client/lib/main.dart"
+            "command": "flutter run -d emulator-5556 --target=client/lib/main.dart"
         },
         {
             "label": "Flutter-Launch-Server",
