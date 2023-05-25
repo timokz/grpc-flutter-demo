@@ -30,7 +30,7 @@ void main(List<String> arguments) async {
 }
 
 class PizzeriaService extends PizzeriaServiceBase {
-  final Map<String, StreamController<PizzaUpdate>> _subscribers = {};
+  final Map<String, StreamController<PizzaUpdateRequest>> _subscribers = {};
   final StreamController<PizzaListResponse> _pizzaListController =
       StreamController<PizzaListResponse>.broadcast();
 
@@ -55,7 +55,7 @@ class PizzeriaService extends PizzeriaServiceBase {
 
     // Create a new stream controller for this pizza if it doesn't exist yet
     if (!_subscribers.containsKey(pizzaId)) {
-      _subscribers[pizzaId] = StreamController<PizzaUpdate>.broadcast();
+      _subscribers[pizzaId] = StreamController<PizzaUpdateRequest>.broadcast();
     }
 
     // Add the client's stream to the subscribers list for this pizza
@@ -64,53 +64,38 @@ class PizzeriaService extends PizzeriaServiceBase {
 
     // Send the current quantity of the pizza to the client
     final pizza = _pizzas.firstWhere((p) => p.id == pizzaId);
-    final quantity = pizza.quantity;
-    _createNewPizzaQuantity(pizzaId, quantity, pizza);
-    yield PizzaUpdateResponse(pizza: pizza);
+    final updateResponse = PizzaUpdateResponse(pizza: pizza);
+    yield updateResponse;
 
     // Listen for updates to the quantity of the pizza and send them to the client
     await for (final update in stream) {
       final pizza = _pizzas.firstWhere((p) => p.id == update.id);
-      final quantity = pizza.quantity;
-      yield PizzaUpdateResponse(pizza: pizza);
+      final updateResponse = PizzaUpdateResponse(pizza: pizza);
+      yield updateResponse;
     }
 
-    // Remove the client's stream from the subscribers list for thispizza when it disconnects
+    // Remove the client's stream from the subscribers list for this pizza when it disconnects
     await subscriber.close();
     _subscribers.remove(pizzaId);
   }
 
-  Pizza _createNewPizzaQuantity(String pizzaId, int quantity, Pizza pizza) {
-    return Pizza(
-      id: pizzaId,
-      quantity: quantity,
-      name: pizza.name,
-      price: pizza.price,
-      description: pizza.description,
-      vegetarian: pizza.vegetarian,
-      imageURL: pizza.imageURL,
-    );
-  }
-
   @override
-  Future<PizzaQuantityUpdateResponse> updatePizzaQuantity(
+  Future<PizzaUpdateResponse> updatePizzaQuantity(
     ServiceCall call,
-    PizzaQuantityUpdateRequest request,
-  ) {
-    print('updatePizzaQuantity rpc called');
-    {
-      final pizzaIndex = _pizzas.indexWhere((p) => p.id == request.pizzaId);
-      if (pizzaIndex >= 0) {
-        _pizzas[pizzaIndex].quantity = request.newQuantity;
+    PizzaUpdateRequest request,
+  ) async {
+    print('updatePizzaQuantity rpc called: ${request.id}');
+    final pizzaIndex = _pizzas.indexWhere((p) => p.id == request.id);
+    if (pizzaIndex >= 0) {
+      _pizzas[pizzaIndex].quantity = request.newQuantity;
+      print('pizza quantity: ${_pizzas[pizzaIndex].quantity}');
 
-        print('pizza quantity: ${_pizzas[pizzaIndex].quantity}');
+      // Update the pizza quantity and broadcast the update
+      await updatePizzaQuantityAndBroadcast(request.id, request.newQuantity);
 
-        // Update the pizza quantity and broadcast the update
-        updatePizzaQuantityAndBroadcast(request.pizzaId, request.newQuantity);
-      }
-      return Future.value(
-        PizzaQuantityUpdateResponse(pizza: _pizzas[pizzaIndex]),
-      );
+      return PizzaUpdateResponse(pizza: _pizzas[pizzaIndex]);
+    } else {
+      throw Exception('Pizza not found');
     }
   }
 
@@ -124,7 +109,10 @@ class PizzeriaService extends PizzeriaServiceBase {
 
       print('updatePizzaQuantity and broadcast rpc called');
       if (_subscribers.containsKey(pizzaId)) {
-        final update = PizzaUpdate(id: pizzaId, quantity: newQuantity);
+        final update = PizzaUpdateRequest(
+          id: pizzaId,
+          newQuantity: newQuantity,
+        );
         _subscribers[pizzaId]!.add(update);
       }
 

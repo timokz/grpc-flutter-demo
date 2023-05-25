@@ -73,8 +73,8 @@ class GRPCService implements PizzeriaInterface {
   }
 
   @override
-  Future<PizzaQuantityUpdateResponse> updatePizzaQuantity(
-    PizzaQuantityUpdateRequest request,
+  Future<PizzaUpdateResponse> updatePizzaQuantity(
+    PizzaUpdateRequest request,
   ) async {
     try {
       final response = await _singleton._client?.updatePizzaQuantity(request);

@@ -24,16 +24,6 @@ const Pizza$json = const {
 
 /// Descriptor for `Pizza`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List pizzaDescriptor = $convert.base64Decode('CgVQaXp6YRIOCgJpZBgBIAEoCVICaWQSEgoEbmFtZRgCIAEoCVIEbmFtZRIgCgtkZXNjcmlwdGlvbhgDIAEoCVILZGVzY3JpcHRpb24SFAoFcHJpY2UYBCABKAFSBXByaWNlEh4KCnZlZ2V0YXJpYW4YBSABKAhSCnZlZ2V0YXJpYW4SGgoIaW1hZ2VVUkwYBiABKAlSCGltYWdlVVJMEhoKCHF1YW50aXR5GAcgASgFUghxdWFudGl0eQ==');
-@$core.Deprecated('Use pizzaUpdateRequestDescriptor instead')
-const PizzaUpdateRequest$json = const {
-  '1': 'PizzaUpdateRequest',
-  '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-  ],
-};
-
-/// Descriptor for `PizzaUpdateRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List pizzaUpdateRequestDescriptor = $convert.base64Decode('ChJQaXp6YVVwZGF0ZVJlcXVlc3QSDgoCaWQYASABKAlSAmlk');
 @$core.Deprecated('Use orderRequestDescriptor instead')
 const OrderRequest$json = const {
   '1': 'OrderRequest',
@@ -44,17 +34,17 @@ const OrderRequest$json = const {
 
 /// Descriptor for `OrderRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List orderRequestDescriptor = $convert.base64Decode('CgxPcmRlclJlcXVlc3QSDgoCaWQYASABKAlSAmlk');
-@$core.Deprecated('Use pizzaUpdateDescriptor instead')
-const PizzaUpdate$json = const {
-  '1': 'PizzaUpdate',
+@$core.Deprecated('Use pizzaUpdateRequestDescriptor instead')
+const PizzaUpdateRequest$json = const {
+  '1': 'PizzaUpdateRequest',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'quantity', '3': 2, '4': 1, '5': 5, '10': 'quantity'},
+    const {'1': 'new_quantity', '3': 2, '4': 1, '5': 5, '10': 'newQuantity'},
   ],
 };
 
-/// Descriptor for `PizzaUpdate`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List pizzaUpdateDescriptor = $convert.base64Decode('CgtQaXp6YVVwZGF0ZRIOCgJpZBgBIAEoCVICaWQSGgoIcXVhbnRpdHkYAiABKAVSCHF1YW50aXR5');
+/// Descriptor for `PizzaUpdateRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List pizzaUpdateRequestDescriptor = $convert.base64Decode('ChJQaXp6YVVwZGF0ZVJlcXVlc3QSDgoCaWQYASABKAlSAmlkEiEKDG5ld19xdWFudGl0eRgCIAEoBVILbmV3UXVhbnRpdHk=');
 @$core.Deprecated('Use pizzaUpdateResponseDescriptor instead')
 const PizzaUpdateResponse$json = const {
   '1': 'PizzaUpdateResponse',
@@ -75,24 +65,3 @@ const PizzaListResponse$json = const {
 
 /// Descriptor for `PizzaListResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List pizzaListResponseDescriptor = $convert.base64Decode('ChFQaXp6YUxpc3RSZXNwb25zZRIeCgZwaXp6YXMYASADKAsyBi5QaXp6YVIGcGl6emFz');
-@$core.Deprecated('Use pizzaQuantityUpdateRequestDescriptor instead')
-const PizzaQuantityUpdateRequest$json = const {
-  '1': 'PizzaQuantityUpdateRequest',
-  '2': const [
-    const {'1': 'pizza_id', '3': 1, '4': 1, '5': 9, '10': 'pizzaId'},
-    const {'1': 'new_quantity', '3': 2, '4': 1, '5': 5, '10': 'newQuantity'},
-  ],
-};
-
-/// Descriptor for `PizzaQuantityUpdateRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List pizzaQuantityUpdateRequestDescriptor = $convert.base64Decode('ChpQaXp6YVF1YW50aXR5VXBkYXRlUmVxdWVzdBIZCghwaXp6YV9pZBgBIAEoCVIHcGl6emFJZBIhCgxuZXdfcXVhbnRpdHkYAiABKAVSC25ld1F1YW50aXR5');
-@$core.Deprecated('Use pizzaQuantityUpdateResponseDescriptor instead')
-const PizzaQuantityUpdateResponse$json = const {
-  '1': 'PizzaQuantityUpdateResponse',
-  '2': const [
-    const {'1': 'pizza', '3': 1, '4': 1, '5': 11, '6': '.Pizza', '10': 'pizza'},
-  ],
-};
-
-/// Descriptor for `PizzaQuantityUpdateResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List pizzaQuantityUpdateResponseDescriptor = $convert.base64Decode('ChtQaXp6YVF1YW50aXR5VXBkYXRlUmVzcG9uc2USHAoFcGl6emEYASABKAsyBi5QaXp6YVIFcGl6emE=');
