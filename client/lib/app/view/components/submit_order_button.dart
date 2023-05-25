@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meetup_demo/protos/generated/protos/pizza.pb.dart';
 import 'package:meetup_demo/service/grcp_service.dart';
 
@@ -16,14 +16,14 @@ class _SubmitOrderButtonState extends State<SubmitOrderButton> {
   bool isButtonEnabled = false;
 
   Future<void> clientButtonPressed() async {
-    // Call the gRPC Client1ButtonPressed method
+    // Call the gRPC ClientButtonPressed method
     final request = OrderRequest(
-      id: generateClientId as String,
+      id: await generateClientId(),
     );
     final response = await GRPCService().submitOrderButtonPress(request);
 
     if (response.pressed) {
-      print('other client pressed the button!');
+      print('Other client pressed the button!');
       setState(() {
         isButtonEnabled = true;
       });
@@ -48,21 +48,17 @@ class _SubmitOrderButtonState extends State<SubmitOrderButton> {
   }
 
   Future<void> submitButtonPressed() async {
-    // get the delivery guy to start spinning
+    // Get the delivery guy to start spinning#
+    GoRouter.of(context).go('/avatar');
   }
 
   Future<String> generateClientId() async {
-    final deviceInfo = DeviceInfoPlugin();
     String deviceId;
 
-    if (Platform.isAndroid) {
-      final androidInfo = await deviceInfo.androidInfo;
-      deviceId = androidInfo.androidId;
-    } else if (Platform.isIOS) {
-      final iosInfo = await deviceInfo.iosInfo;
-      deviceId = iosInfo.identifierForVendor;
+    if (Platform.isAndroid || Platform.isIOS) {
+      deviceId = Platform.operatingSystemVersion;
     } else {
-      // For other platforms, generate a shitty random id
+      // For other platforms, generate a random ID
       deviceId = DateTime.now().millisecondsSinceEpoch.toString();
     }
 

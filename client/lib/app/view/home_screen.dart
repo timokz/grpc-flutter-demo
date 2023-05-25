@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:meetup_demo/app/view/components/avatar_animation.dart';
 import 'package:meetup_demo/service/grcp_service.dart';
 import 'package:meetup_demo/service/pizza_repo.dart';
 
@@ -25,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
           title: const Text('Home Screen'),
         ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
               child: ElevatedButton(
@@ -32,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () => context.go('/pizza_order'),
               ),
             ),
-            const AvatarAnimation(),
           ],
         ),
       ),
