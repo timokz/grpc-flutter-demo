@@ -58,7 +58,6 @@ class GRPCService implements PizzeriaInterface {
     final stream =
         _singleton._client?.subscribeToPizza(request).asBroadcastStream();
 
-    // Listen for updates on the stream and add them to the controller
     stream?.listen(
       _controller.add,
       onError: (error) {
@@ -81,6 +80,20 @@ class GRPCService implements PizzeriaInterface {
       return response!;
     } catch (e) {
       log('Error updating pizza quantity: $e');
+      print('Error updating pizza quantity: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<SubmitButtonResponse> submitOrderButtonPress(
+    OrderRequest request,
+  ) async {
+    try {
+      final response = await _singleton._client?.submitButtonPressed(request);
+      return response ?? SubmitButtonResponse(pressed: false);
+    } catch (e, stackTrace) {
+      log('Error updating pizza quantity: $e\n$stackTrace');
       print('Error updating pizza quantity: $e');
       rethrow;
     }

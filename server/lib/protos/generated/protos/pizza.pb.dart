@@ -338,3 +338,50 @@ class PizzaListResponse extends $pb.GeneratedMessage {
   $core.List<Pizza> get pizzas => $_getList(0);
 }
 
+class SubmitButtonResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SubmitButtonResponse', createEmptyInstance: create)
+    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pressed')
+    ..hasRequiredFields = false
+  ;
+
+  SubmitButtonResponse._() : super();
+  factory SubmitButtonResponse({
+    $core.bool? pressed,
+  }) {
+    final _result = create();
+    if (pressed != null) {
+      _result.pressed = pressed;
+    }
+    return _result;
+  }
+  factory SubmitButtonResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SubmitButtonResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  SubmitButtonResponse clone() => SubmitButtonResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  SubmitButtonResponse copyWith(void Function(SubmitButtonResponse) updates) => super.copyWith((message) => updates(message as SubmitButtonResponse)) as SubmitButtonResponse; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static SubmitButtonResponse create() => SubmitButtonResponse._();
+  SubmitButtonResponse createEmptyInstance() => create();
+  static $pb.PbList<SubmitButtonResponse> createRepeated() => $pb.PbList<SubmitButtonResponse>();
+  @$core.pragma('dart2js:noInline')
+  static SubmitButtonResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SubmitButtonResponse>(create);
+  static SubmitButtonResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get pressed => $_getBF(0);
+  @$pb.TagNumber(1)
+  set pressed($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPressed() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPressed() => clearField(1);
+}
+

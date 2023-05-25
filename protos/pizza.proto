@@ -25,4 +25,7 @@ service Pizzeria {
   rpc ListPizzas(OrderRequest) returns (PizzaListResponse);
   rpc SubscribeToPizza(PizzaUpdateRequest) returns (stream PizzaUpdateResponse);
   rpc UpdatePizzaQuantity(PizzaUpdateRequest) returns (PizzaUpdateResponse);
+  rpc SubmitButtonPressed(OrderRequest) returns (SubmitButtonResponse);
 }
+
+message SubmitButtonResponse { bool pressed = 1; }

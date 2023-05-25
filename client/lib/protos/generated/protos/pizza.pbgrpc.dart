@@ -32,6 +32,12 @@ class PizzeriaClient extends $grpc.Client {
           ($0.PizzaUpdateRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.PizzaUpdateResponse.fromBuffer(value));
+  static final _$submitButtonPressed =
+      $grpc.ClientMethod<$0.OrderRequest, $0.SubmitButtonResponse>(
+          '/Pizzeria/SubmitButtonPressed',
+          ($0.OrderRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.SubmitButtonResponse.fromBuffer(value));
 
   PizzeriaClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -55,6 +61,12 @@ class PizzeriaClient extends $grpc.Client {
       $0.PizzaUpdateRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$updatePizzaQuantity, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.SubmitButtonResponse> submitButtonPressed(
+      $0.OrderRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$submitButtonPressed, request, options: options);
   }
 }
 
@@ -87,6 +99,13 @@ abstract class PizzeriaServiceBase extends $grpc.Service {
             ($core.List<$core.int> value) =>
                 $0.PizzaUpdateRequest.fromBuffer(value),
             ($0.PizzaUpdateResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.OrderRequest, $0.SubmitButtonResponse>(
+        'SubmitButtonPressed',
+        submitButtonPressed_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.OrderRequest.fromBuffer(value),
+        ($0.SubmitButtonResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.PizzaListResponse> listPizzas_Pre(
@@ -106,10 +125,17 @@ abstract class PizzeriaServiceBase extends $grpc.Service {
     return updatePizzaQuantity(call, await request);
   }
 
+  $async.Future<$0.SubmitButtonResponse> submitButtonPressed_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.OrderRequest> request) async {
+    return submitButtonPressed(call, await request);
+  }
+
   $async.Future<$0.PizzaListResponse> listPizzas(
       $grpc.ServiceCall call, $0.OrderRequest request);
   $async.Stream<$0.PizzaUpdateResponse> subscribeToPizza(
       $grpc.ServiceCall call, $0.PizzaUpdateRequest request);
   $async.Future<$0.PizzaUpdateResponse> updatePizzaQuantity(
       $grpc.ServiceCall call, $0.PizzaUpdateRequest request);
+  $async.Future<$0.SubmitButtonResponse> submitButtonPressed(
+      $grpc.ServiceCall call, $0.OrderRequest request);
 }

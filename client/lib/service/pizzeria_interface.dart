@@ -6,4 +6,5 @@ abstract class PizzeriaInterface {
     PizzaUpdateRequest request,
   );
   Future<PizzaListResponse> loadPizzas();
+  Future<SubmitButtonResponse> submitOrderButtonPress(OrderRequest request);
 }

@@ -30,6 +30,7 @@ void main(List<String> arguments) async {
 }
 
 class PizzeriaService extends PizzeriaServiceBase {
+  final Set<String> _pressedIds = {};
   final Map<String, StreamController<PizzaUpdateRequest>> _subscribers = {};
   final StreamController<PizzaListResponse> _pizzaListController =
       StreamController<PizzaListResponse>.broadcast();
@@ -119,6 +120,24 @@ class PizzeriaService extends PizzeriaServiceBase {
       // Send updated pizza list to all connected clients
       final response = PizzaListResponse(pizzas: _pizzas);
       _pizzaListController.add(response);
+    }
+  }
+
+  @override
+  Future<SubmitButtonResponse> submitButtonPressed(
+    ServiceCall call,
+    OrderRequest request,
+  ) {
+    print('Submit button pressed by client: ${request.id}');
+
+    _pressedIds.add(request.id);
+
+    if (_pressedIds.length >= 2) {
+      print('Order submitted!');
+      _pressedIds.clear();
+      return Future.value(SubmitButtonResponse(pressed: true));
+    } else {
+      return Future.value(SubmitButtonResponse(pressed: false));
     }
   }
 }

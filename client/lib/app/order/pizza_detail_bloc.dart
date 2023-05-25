@@ -31,7 +31,6 @@ class PizzaDetailBloc extends Bloc<PizzaDetailEvent, PizzaDetailState> {
     _updateSubscription = _grpcService.subscribeToPizzas(request).listen(
       (update) {
         if (update.pizza.id == pizza.id) {
-          print('Received pizza update: $update');
           add(UpdatePizzaQuantity(update.pizza.quantity));
         }
       },

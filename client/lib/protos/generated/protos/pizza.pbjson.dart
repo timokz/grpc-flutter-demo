@@ -65,3 +65,13 @@ const PizzaListResponse$json = const {
 
 /// Descriptor for `PizzaListResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List pizzaListResponseDescriptor = $convert.base64Decode('ChFQaXp6YUxpc3RSZXNwb25zZRIeCgZwaXp6YXMYASADKAsyBi5QaXp6YVIGcGl6emFz');
+@$core.Deprecated('Use submitButtonResponseDescriptor instead')
+const SubmitButtonResponse$json = const {
+  '1': 'SubmitButtonResponse',
+  '2': const [
+    const {'1': 'pressed', '3': 1, '4': 1, '5': 8, '10': 'pressed'},
+  ],
+};
+
+/// Descriptor for `SubmitButtonResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List submitButtonResponseDescriptor = $convert.base64Decode('ChRTdWJtaXRCdXR0b25SZXNwb25zZRIYCgdwcmVzc2VkGAEgASgIUgdwcmVzc2Vk');

@@ -20,6 +20,7 @@ dependencies:
   intl: ^0.18.0
   json_annotation: ^4.8.1
   protobuf: ^2.1.0
+  device_info: ^2.0.2
   models: 
     path: ../packages/models
 
