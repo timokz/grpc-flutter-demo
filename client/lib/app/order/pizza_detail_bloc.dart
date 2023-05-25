@@ -8,15 +8,18 @@ import 'package:meetup_demo/service/pizzeria_interface.dart';
 class PizzaDetailBloc extends Bloc<PizzaDetailEvent, PizzaDetailState> {
   PizzaDetailBloc(this.pizza) : super(PizzaDetailState(quantity: 1)) {
     on<IncrementQuantity>((event, emit) {
+      print('PizzaDetailBloc: IncrementQuantity');
       final newQuantity = state.quantity + 1;
       emit(PizzaDetailState(quantity: newQuantity));
 
-      _grpcService.updatePizzaQuantity(
+/*       final response = _grpcService.updatePizzaQuantity(
         PizzaQuantityUpdateRequest(
           pizzaId: pizza.id,
           newQuantity: newQuantity,
         ),
-      );
+      ); 
+
+      response.then(print); */
       _quantityController.add(newQuantity);
     });
   }

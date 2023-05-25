@@ -19,8 +19,8 @@ class GRPCService implements PizzeriaInterface {
 
   static Future<GRPCService> init() async {
     final channel = ClientChannel(
-      'localhost',
-      port: 50051,
+      '10.0.2.2',
+      port: 8000,
       options: const ChannelOptions(
         credentials: ChannelCredentials.insecure(),
       ),
@@ -39,14 +39,13 @@ class GRPCService implements PizzeriaInterface {
     return GRPCService();
   }
 
-  Future<List<Pizza>> loadPizzas() async {
+  Future<ResponseStream<PizzaListResponse>?>? loadPizzas() async {
     print('calling listPizzas rpc');
     try {
-      final pizzaResponse =
-          await _singleton._client?.listPizzas(OrderRequest());
+      final pizzaResponse = _singleton._client?.listPizzas(OrderRequest());
       log('called listPizzas rpc');
       print('called listPizzas rpc');
-      return pizzaResponse!.pizzas.toList();
+      return pizzaResponse;
     } catch (e) {
       log('Error loading pizzas: $e');
       print('Error loading pizzas: $e');

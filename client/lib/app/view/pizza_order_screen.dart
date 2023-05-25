@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grpc/src/client/common.dart';
 import 'package:meetup_demo/app/view/pizza_detail_view.dart';
 import 'package:meetup_demo/protos/generated/protos/pizza.pb.dart';
 import 'package:meetup_demo/service/grcp_service.dart';
@@ -17,8 +18,8 @@ class PizzaOrderScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
       ),
-      body: FutureBuilder<List<Pizza>>(
-        future: loadPizza(),
+      body: StreamBuilder<List<Pizza>>(
+        stream: loadPizza(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
@@ -48,9 +49,9 @@ class PizzaOrderScreen extends StatelessWidget {
     );
   }
 
-  Future<List<Pizza>> loadPizza() async {
+  Future<ResponseStream<PizzaListResponse>?>? loadPizza() async {
     final pizzas = await GRPCService().loadPizzas();
 
-    return pizzas;
+    pizzas.take
   }
 }

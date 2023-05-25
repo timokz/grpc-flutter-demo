@@ -21,14 +21,21 @@ class PizzaDetailView extends StatelessWidget {
         title: Text(pizza.name),
         subtitle: Text(pizza.description),
         trailing: StreamBuilder<int>(
+          stream: bloc.quantity,
           builder: (context, snapshot) {
             return IconButton(
               onPressed: () => bloc.add(IncrementQuantity()),
-              icon: Row(
-                children: [
-                  const Icon(Icons.add),
-                  Text('${snapshot.data ?? 0}'),
-                ],
+              icon: LayoutBuilder(
+                builder: (context, constraints) {
+                  return FittedBox(
+                    child: Row(
+                      children: [
+                        const Icon(Icons.add),
+                        Text('${snapshot.data ?? 0}'),
+                      ],
+                    ),
+                  );
+                },
               ),
             );
           },

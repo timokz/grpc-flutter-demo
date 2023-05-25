@@ -40,7 +40,7 @@ message PizzaQuantityUpdateRequest {
 message PizzaQuantityUpdateResponse { Pizza pizza = 1; }
 
 service Pizzeria {
-  rpc ListPizzas(OrderRequest) returns (PizzaListResponse);
+  rpc ListPizzas(OrderRequest) returns (stream PizzaListResponse);
   rpc GetOrder(OrderRequest) returns (OrderResponse);
   rpc ListOrders(OrderRequest) returns (OrderListResponse);
   rpc CreateOrder(Order) returns (OrderResponse);

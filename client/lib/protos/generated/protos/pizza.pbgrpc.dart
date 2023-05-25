@@ -62,9 +62,11 @@ class PizzeriaClient extends $grpc.Client {
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.PizzaListResponse> listPizzas($0.OrderRequest request,
+  $grpc.ResponseStream<$0.PizzaListResponse> listPizzas($0.OrderRequest request,
       {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$listPizzas, request, options: options);
+    return $createStreamingCall(
+        _$listPizzas, $async.Stream.fromIterable([request]),
+        options: options);
   }
 
   $grpc.ResponseFuture<$0.OrderResponse> getOrder($0.OrderRequest request,
@@ -115,7 +117,7 @@ abstract class PizzeriaServiceBase extends $grpc.Service {
         'ListPizzas',
         listPizzas_Pre,
         false,
-        false,
+        true,
         ($core.List<$core.int> value) => $0.OrderRequest.fromBuffer(value),
         ($0.PizzaListResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.OrderRequest, $0.OrderResponse>(
@@ -173,9 +175,9 @@ abstract class PizzeriaServiceBase extends $grpc.Service {
         ($0.PizzaQuantityUpdateResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.PizzaListResponse> listPizzas_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.OrderRequest> request) async {
-    return listPizzas(call, await request);
+  $async.Stream<$0.PizzaListResponse> listPizzas_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.OrderRequest> request) async* {
+    yield* listPizzas(call, await request);
   }
 
   $async.Future<$0.OrderResponse> getOrder_Pre(
@@ -215,7 +217,7 @@ abstract class PizzeriaServiceBase extends $grpc.Service {
     return updatePizzaQuantity(call, await request);
   }
 
-  $async.Future<$0.PizzaListResponse> listPizzas(
+  $async.Stream<$0.PizzaListResponse> listPizzas(
       $grpc.ServiceCall call, $0.OrderRequest request);
   $async.Future<$0.OrderResponse> getOrder(
       $grpc.ServiceCall call, $0.OrderRequest request);
