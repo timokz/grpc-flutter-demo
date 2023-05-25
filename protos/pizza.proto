@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+message Pizza {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  bool vegetarian = 5;
+  string imageURL = 6;
+  int32 quantity = 7;
+}
+
+message OrderRequest { string id = 1; }
+
+message PizzaUpdateRequest {
+  string id = 1;
+  int32 new_quantity = 2;
+}
+
+message PizzaUpdateResponse { Pizza pizza = 1; }
+
+message PizzaListResponse { repeated Pizza pizzas = 1; }
+
+service Pizzeria {
+  rpc ListPizzas(OrderRequest) returns (PizzaListResponse);
+  rpc SubscribeToPizza(PizzaUpdateRequest) returns (stream PizzaUpdateResponse);
+  rpc UpdatePizzaQuantity(PizzaUpdateRequest) returns (PizzaUpdateResponse);
+  rpc SubmitButtonPressed(OrderRequest) returns (SubmitButtonResponse);
+}
+
+message SubmitButtonResponse { bool pressed = 1; }

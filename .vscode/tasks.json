@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Flutter-Launch-All",
+            "dependsOn": [
+                "Flutter-Launch-Android1",
+                "Flutter-Launch-Android2",
+                "Flutter-Launch-Server"
+            ]
+        },
+        {
+            "label": "Flutter-Launch-Android1",
+            "type": "shell",
+            "command": " cd client && flutter run -d emulator-5554 --target=lib/main.dart"
+        },
+        {
+            "label": "Flutter-Launch-Android2",
+            "type": "shell",
+            "command": "cd client &&  flutter run -d emulator-5556 --target=lib/main.dart"
+        },
+        {
+            "label": "Flutter-Launch-Server",
+            "type": "shell",
+            "command": "dart server/bin/meetup_demo_server.dart"
+        }
+    ]
+}
